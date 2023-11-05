@@ -1,16 +1,42 @@
-import { Link } from "react-router-dom";
+
+import { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../../Providers/AuthProviders";
+
 
 
 
 
 const Navbar = () => {
+    const { user, LogOut } = useContext(AuthContext)
+    const handelLogout = () => {
+        LogOut()
+            .then(() => {
+                console.log('Log out success full ')
+            }).catch(error => { console.error(error) })
+    }
+
+
     const NavItem = <>
         <li className="bg-white"><Link to='/'>Home</Link> </li>
         <li className="bg-white"><Link to='/about'>About</Link> </li>
-        <li className="bg-white"><Link to='/'>Services</Link> </li>
+        {/* <li className="bg-white"><Link to='/'>Services</Link> </li>
         <li className="bg-white"><Link to='/'>Blog</Link> </li>
-        <li className="bg-white"><Link to='/'>Contact</Link> </li>
+        <li className="bg-white"><Link to='/'>Contact</Link> </li> */}
 
+
+        <li className="bg-white"><Link to='/Regestation'>Registration</Link> </li>
+        {
+            user ?
+                <>
+
+                    <p>{user.email}</p>
+                    <img className="rounded-full w-10 h-10 m-3" src={user.photoURL} alt="" />
+
+
+                    <NavLink onClick={handelLogout} className="btn btn-sm">Sig out</NavLink>
+                </> : <NavLink to="/login" className="btn btn-sm">Log In</NavLink>
+        }
 
     </>
     return (
